@@ -4,12 +4,14 @@ cmake_minimum_required(VERSION 3.18)
 set(CMAKE_CUDA_ARCHITECTURES 52)
 
 # 2. Add the CUDA language to the project
-project(Chap02 LANGUAGES C CUDA)
+project(Chap02 LANGUAGES CXX CUDA)
 
-# 3. Add your source file
+# Disable C++ exceptions
+add_compile_options(-fno-exceptions)
+list(APPEND CMAKE_CUDA_FLAGS "-Xcompiler=-fno-exceptions")
+
 add_executable(Chap02 main.cu)
 
-# 4. Optional: Set C++ and CUDA standards
 set_target_properties(Chap02 PROPERTIES
         CUDA_STANDARD 17
         CUDA_STANDARD_REQUIRED ON
