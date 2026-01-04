@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.18)
 set(CMAKE_CUDA_ARCHITECTURES 52)
 
 # 2. Add the CUDA language to the project
-project(Chap02 LANGUAGES CXX CUDA)
+project(Chap02 LANGUAGES C CUDA)
 
 # 3. Add your source file
 add_executable(Chap02 main.cu)
