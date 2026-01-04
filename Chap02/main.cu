@@ -73,7 +73,8 @@ void VecAdd(const std::vector<float> &vec_a, const std::vector<float> &vec_b,
   LOGIC_CHECK(vec_b.size() == vec_c->size());
 
   const size_t element_count = vec_a.size();
-  const size_t size_in_bytes = element_count * sizeof(float);
+  SafeInt<size_t> size_in_bytes(element_count);
+  size_in_bytes *= sizeof(float);
 
   auto A_d = MakeCudaUnique<float>(element_count);
   auto B_d = MakeCudaUnique<float>(element_count);
