@@ -6,18 +6,31 @@ set(CMAKE_CUDA_ARCHITECTURES 52)
 # 2. Add the CUDA language to the project
 project(Chap02 LANGUAGES CXX CUDA)
 
-# Disable C++ exceptions
-add_compile_options(-fno-exceptions)
-list(APPEND CMAKE_CUDA_FLAGS "-Xcompiler=-fno-exceptions")
+# Per-target exception settings are now used.
+# 'StandardCpp' will have exceptions enabled by default.
 
 add_executable(Chap02 main.cu)
+# Disable exceptions for this target
+target_compile_options(Chap02 PRIVATE -fno-exceptions)
+set_property(TARGET Chap02 APPEND PROPERTY CUDA_FLAGS "-Xcompiler=-fno-exceptions")
+
 add_executable(Grouped grouped.cu)
+# Disable exceptions for this target
+target_compile_options(Grouped PRIVATE -fno-exceptions)
+set_property(TARGET Grouped APPEND PROPERTY CUDA_FLAGS "-Xcompiler=-fno-exceptions")
 
 # Add the local SafeInt library to the include path for both targets
 target_include_directories(Chap02 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/SafeInt)
 target_include_directories(Grouped PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/SafeInt)
 
 set_target_properties(Chap02 PROPERTIES
+        CUDA_STANDARD 17
+        CUDA_STANDARD_REQUIRED ON
+)
+
+add_executable(StandardCpp main_standard_cpp.cu)
+target_include_directories(StandardCpp PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/SafeInt)
+set_target_properties(StandardCpp PROPERTIES
         CUDA_STANDARD 17
         CUDA_STANDARD_REQUIRED ON
 )
